@@ -1,0 +1,13 @@
+*.zip
+*.json
+*.csv
+*.xlsx
+*.xls
+/.Rproj.user
+*.html
+*.Rproj
+*.Rmd
+water*
+hp_out_myworkspace*
+*.Rhistory
+*.RData
