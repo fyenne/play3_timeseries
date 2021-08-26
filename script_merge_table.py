@@ -5,6 +5,12 @@ from pyspark.sql.functions import *
 spark = SparkSession.builder.enableHiveSupport().getOrCreate()
 spark.conf.set('spark.sql.sources.partitionOverwriteMode', 'dynamic')
 
+
+from datetime import date, datetime
+today = str(date.today()- timedelta(days=1)).replace('-','');print(today)
+
+
+
 names = ['ods_cn_bose'
 ,'ods_cn_apple_sz'
 ,'ods_cn_apple_sh'
@@ -32,7 +38,7 @@ names = ['ods_cn_bose'
 """
 第三部分,  drop duplicates and insert overwrite. 
 """
-ee = ['insert overwrite table ' + i + 
+rh1 = ['insert overwrite table ' + i + 
 """
 .receipt_header_df partition (inc_day = '20210824') 
 Select 
@@ -206,12 +212,34 @@ internal_receipt_num
 ,in_pre_checkin_ctr_creation
 ,inc_day
 ,row_number() over(partition by receipt_id, internal_receipt_num order by inc_day desc) as rn 
-from 
+from  
 """
  + i + '.receipt_header) as a where rn = 1;'
 for i in names
 ]
  
-ee2 = [i.replace('\n', '') for i in ee]
-[spark.sql(i) for i in ee2]
- 
+rh2 = [i.replace('\n', '') for i in rh1]
+[spark.sql(i) for i in rh2]
+
+
+"""
+receipt_detail
+
+"""
+rd1 = [
+
+
+
+
+
+
+]
+
+
+
+
+
+
+rd2 = [i.replace('\n', '') for i in rd1]
+[spark.sql(i) for i in rd2]
+
